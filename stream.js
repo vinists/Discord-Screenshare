@@ -102,7 +102,7 @@ class Video {
             }
           }).youtubeDlProcess;
       });
-    });
+    }).catch(msg.reply("catch in promise"));
   }
 
   play() {
