@@ -1,1 +1,1 @@
-worker:node app.js --bind :$PORT
+worker:node app.js
