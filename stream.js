@@ -147,7 +147,7 @@ class Stream extends Video {
 
   constructor(token, headless = true) {
     super();
-    const chrome_options = new chrome.Options();
+    const chrome_options = new chrome.Options().setChromeBinaryPath(process.env.GOOGLE_CHROME_BIN);
     headless && chrome_options.addArguments("--headless");
     chrome_options.addArguments("--no-sandbox");
     chrome_options.addArguments("--window-size=1920,1080");
