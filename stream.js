@@ -18,32 +18,35 @@ class Video {
       });
     }
 
-    await this.driver.executeScript(`video.src='${url}'`).then((_) => {
-      console.log("Loading...");
-      msg.edit("Loading...").then((_) => {
-        var int1 = setInterval(() => {
-          is_error && clearInterval(int1);
+    await this.driver
+      .executeScript(`video.src='${url}'`)
+      .then((_) => {
+        console.log("Loading...");
+        msg.edit("Loading...").then((_) => {
+          var int1 = setInterval(() => {
+            is_error && clearInterval(int1);
 
-          if (this.killed) {
-            msg.edit(":no_entry_sign: Loading stopped");
-            this.in_loading = false;
-            this.killed = false;
-            clearInterval(int1);
-            clearInterval(int2);
-            clearInterval(int3);
-          }
-
-          this.driver.getCurrentUrl().then((url) => {
-            if (!this.init && url === "file:///channels/@me") {
-              this.init = true;
-              this.open_guild();
-              this.join(msg);
+            if (this.killed) {
+              msg.edit(":no_entry_sign: Loading stopped");
+              this.in_loading = false;
+              this.killed = false;
               clearInterval(int1);
-            } else if (this.init) clearInterval(int1);
-          });
-        }, 10);
-      });
-    });
+              clearInterval(int2);
+              clearInterval(int3);
+            }
+
+            this.driver.getCurrentUrl().then((url) => {
+              if (!this.init && url === "file:///channels/@me") {
+                this.init = true;
+                this.open_guild();
+                this.join(msg);
+                clearInterval(int1);
+              } else if (this.init) clearInterval(int1);
+            });
+          }, 10);
+        });
+      })
+      .catch((err) => console.log(err));
 
     // Wait until video load
     let is_load;
@@ -102,7 +105,7 @@ class Video {
             }
           }).youtubeDlProcess;
       });
-    }).catch(msg.reply("catch in promise"));
+    }).catch((err) => console.log(err));
   }
 
   play() {
